@@ -40,13 +40,15 @@
 
 <body>
 	<div id="content">
+		<h2 id="head">AtCoder Rollback</h2>
 		<form action="index.html" method="GET">
 			<input type="text" name="user" id="user" spellcheck="false"><br>
 			<input type="date" name="date" id="date"><br>
 			<input type="submit" id="submit" value="Submit"><br>
 		</form>
 		<canvas id="ratingStatus" width="640" height="80"></canvas><br>
-		<canvas id="ratingGraph" width="640" height="360"></canvas>
+		<canvas id="ratingGraph" width="640" height="360"></canvas><br>
+		<a id="tweet">Share by Tweet</a>
 	</div>
 
 	<script type="text/javascript">
@@ -65,6 +67,7 @@
 			rating_history = [];
 			user = document.getElementById("user").value;
 			date = new Date(document.getElementById("date").value).getTime();
+			document.getElementById("head").textContent = user + "さんの" + document.getElementById("date").value + "時点でのレーティンググラフ";
 			ajax("https://atcoder.jp/users/" + user + "/history/json", function (res) {
 				for (let i in res) {
 					const contest = res[i];
@@ -78,6 +81,8 @@
 				let script = document.createElement('script');
 				script.src = './rating-graph.js';
 				document.body.appendChild(script);
+				let tweetText = document.getElementById("head").textContent + "\n" + location.href + " #AtCoderRollback";
+				document.getElementById("tweet").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText);
 			});
 		};
 		window.addEventListener("load", () => {
@@ -87,6 +92,8 @@
 				document.getElementById("date").value = q[1].split('=')[1];
 				reload();
 			}
+			let tweetText = location.href + " #AtCoderRollback";
+			document.getElementById("tweet").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText);
 		});
 	</script>
 
