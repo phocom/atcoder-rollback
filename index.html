@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<link rel="shortcut icon" type="image/x-icon" href="https://phocom.github.io/favicon.ico">
+	<link rel="shortcut icon" type="image/x-icon" href="https://nenone.net/favicon.ico">
 	<title>AtCoder Rollback</title>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
@@ -40,11 +40,10 @@
 
 <body>
 	<div id="content">
-		<form>
-			<input type="text" id="user" spellcheck="false"><br>
-			<input type="date" id="date"><br>
-			<input type="submit" id="submit" value="Submit"
-				onclick="location.href='#/'+document.getElementById('user').value+'/'+document.getElementById('date').value;location.reload(true);"><br>
+		<form action="index.html" method="GET">
+			<input type="text" name="user" id="user" spellcheck="false"><br>
+			<input type="date" name="date" id="date"><br>
+			<input type="submit" id="submit" value="Submit"><br>
 		</form>
 		<canvas id="ratingStatus" width="640" height="80"></canvas><br>
 		<canvas id="ratingGraph" width="640" height="360"></canvas>
@@ -77,15 +76,15 @@
 					}
 				}
 				let script = document.createElement('script');
-				script.id = "graph";
 				script.src = './rating-graph.js';
 				document.body.appendChild(script);
 			});
 		};
 		window.addEventListener("load", () => {
-			if (location.hash.length > 3) {
-				document.getElementById("user").value = location.hash.split("/")[1];
-				document.getElementById("date").value = location.hash.split("/")[2];
+			let q = location.search.slice(1).split('&');
+			if (q.length >= 2) {
+				document.getElementById("user").value = q[0].split('=')[1];
+				document.getElementById("date").value = q[1].split('=')[1];
 				reload();
 			}
 		});
